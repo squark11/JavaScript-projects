@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather in my city</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1 class="label">Pogoda</h1>
+      <form id="search">
+        <div class="flex">
+          <input
+            id="cityIn"
+            type="search"
+            name="city"
+            placeholder="Enter city name"
+            required
+          />
+          <input id="searchButton" type="submit" value="Get Weather" />
+        </div>
+      </form>
+
+      <section id="result">
+        <h1 id="cityOut"></h1>
+        <ul class="conditions">
+          <li>
+            <img id="mainIcon" src="" alt="" />
+            <div class="main">
+              <p id="mainTemp"></p>
+              <p id="mainDescription"></p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h2>Wilgotność</h2>
+              <span id="humidity"></span>
+            </div>
+          </li>
+        </ul>
+ 
+      </section>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>
