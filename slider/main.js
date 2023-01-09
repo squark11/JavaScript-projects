@@ -96,6 +96,7 @@
             slides[slideNumber].classList.add("active");
             slideIcons[slideNumber].classList.add("active");
         }, 4000);
+        pauseBtn.innerHTML = "pause";
     }
     repeater();
 
@@ -105,7 +106,6 @@
             pauseBtn.innerHTML = "play";
             clearInterval(playSlider);
         } else {
-            pauseBtn.innerHTML = "pause";
             repeater();
         }
     })
