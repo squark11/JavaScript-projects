@@ -59,7 +59,6 @@ function updateWeatherData(data, callbackFunction = null) {
 
    cityOut_elem.innerHTML = cityName;
     mainIcon_elem.setAttribute("src", icon_url);
-    mainIcon_elem.setAttribute("alt", description);
     mainTemp_elem.innerHTML = Math.round(temp) + deg;
     humidity_elem.innerHTML = humidity + percent;
 
