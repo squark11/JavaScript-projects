@@ -1,3 +1,4 @@
+
 const API_KEY = `eab61593501a45e6908192713231601`;
 const API_URL = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}`
 
@@ -14,19 +15,29 @@ class App {
         }
         
         this.cities = cities.map(c => new City(c.name, this));
-
         this.render();
+        this.repeater(this);
     }
+    
+
+    repeater(a) {
+        const repeatData = setInterval(function () {
+            a.render()
+        }, 300000);
+    }
+    
     addCity(c) {
-        this.cities.push(c);
-        this.render();
-        this.saveIntoStorage();
+        
+        if(this.cities.filter(city => city.name === c.name).length===0 && this.cities.length < 10){
+            this.cities.push(c);
+            this.render();
+            this.saveIntoStorage();
+        }
+
     }
     removeCity(c) {
-        const index = this.cities.findIndex(city => city.name === c.name);
-        this.cities.splice(index, 1);
 
-        //        this.cities = this.cities.filter(city => city.name !== c.name);
+        this.cities = this.cities.filter(city => city !== c);
         this.render();
         this.saveIntoStorage();
     }
@@ -51,14 +62,17 @@ class City {
         const res = await fetch(`${API_URL}&q=${this.name}`)
             .then(response => response.json())
 
-        console.log(res);
-
         this.info = res.current;
         return this.info;
     }
 
     async render(ctr) {
         const info = await this.getWeather();
+        
+        if(!this.info){
+            this.app.removeCity(this);
+            alert("Sorry but the city name should be english!");
+        }
         const cityEl = document.createElement('div');
         cityEl.className = 'city-el d-flex flex-column align-items-center';
         cityEl.innerHTML = `   
@@ -80,12 +94,10 @@ class City {
         };
     }
 }
+
+
 const app = new App(document.querySelector('.weather-locations'));
 
-const modal = document.querySelector('#addCityModal')
-const bootstrapModal = new bootstrap.Modal(modal, {
-    keyboard: false
-})
 
 const saveBtn = document.querySelector('#saveCity');
 
@@ -93,17 +105,16 @@ const input = document.querySelector('#cityName');
 
 input.addEventListener('keypress', (ev) => {
     if (ev.key === 'Enter') {
-        addCity();
+        const city = new City(input.value, app);
+        app.addCity(city);
+        input.value = '';
     }
-})
-modal.addEventListener('shown.bs.modal', () => {
-    input.focus();
 })
 
 saveBtn.addEventListener('click', () => {
     const city = new City(input.value, app);
     app.addCity(city);
-    bootstrapModal.hide();
+    input.value = '';
 })
 
 
