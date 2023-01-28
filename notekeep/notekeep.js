@@ -5,12 +5,15 @@ closeIcon = popupBox.querySelector("header i"),
 titleTag = popupBox.querySelector("input"),
 descTag = popupBox.querySelector("textarea"),
 colorBtns = popupBox.querySelectorAll("input[name='color']"),
-addBtn = popupBox.querySelector("button");
+addBtn = popupBox.querySelector("button"); 
+
 const months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-const pines = JSON.parse(localStorage.getItem("pines") || "[]");
+
 let isUpdate = false, updateId;
+
+// popUp do wpisywania notatek
 addBox.addEventListener("click", () => {
     popupTitle.innerText = "Add a new Note";
     addBtn.innerText = "Add Note";
@@ -18,18 +21,34 @@ addBox.addEventListener("click", () => {
     document.querySelector("body").style.overflow = "hidden";
     if(window.innerWidth > 660) titleTag.focus();
 });
+
+// zamykanie popUpa
 closeIcon.addEventListener("click", () => {
     isUpdate = false;
     titleTag.value = descTag.value = "";
     popupBox.classList.remove("show");
     document.querySelector("body").style.overflow = "auto";
 });
+
+// wyświetlanie notatek
+
 function showNotes() {
     if(!notes) return;
+    //usuwanie istniejących elementów z widoku
     document.querySelectorAll(".note").forEach(li => li.remove());
+    
+    //ustawienie elementów z pinowanych na górę listy
+    notes.forEach((note, id)=> {
+        if(note.notePinStatus){
+            let noteToPin = note;
+            notes.splice(id, 1);
+            notes.push(noteToPin)
+        }
+    });
+    //wyświetlenie zawartości tablicy notes
     notes.forEach((note, id) => {
-        let filterDesc = note.description.replaceAll("\n", '<br/>');
-        let liTag = `<li class="note">
+            let filterDesc = note.description.replaceAll("\n", '<br/>');
+            let liTag = `<li class="note">
                         <div class="details">
                             <p>${note.title}</p>
                             <span>${filterDesc}</span>
@@ -41,15 +60,20 @@ function showNotes() {
                                 <ul class="menu">
                                     <li onclick="updateNote(${id}, '${note.title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</li>
                                     <li onclick="deleteNote(${id})"><i class="uil uil-trash"></i>Delete</li>
-                                    <li onclick="pinNote(${id})"><i class="uil uil-bookmark"></i>Pin</li>
+                                    <li onclick="pinNote(${id})"><i class="uil uil-bookmark"></i> ${note.notePinStatus==true ? 'Unpin' : 'Pin'} </li>
                                 </ul>
                             </div>
                         </div>
                     </li>`;
-        addBox.insertAdjacentHTML("afterend", liTag);
+            addBox.insertAdjacentHTML("afterend", liTag);
+        console.log(note.notePinStatus);
     });
 }
+
+
 showNotes();
+
+// elementy do modyfikacji notatki - menu
 function showMenu(elem) {
     elem.parentElement.classList.add("show");
     document.addEventListener("click", e => {
@@ -58,13 +82,15 @@ function showMenu(elem) {
         }
     });
 }
+
+//usuwanie notatki
 function deleteNote(noteId) {
-    let confirmDel = confirm(`Are you sure you want to delete this note?  ${noteId}`);
-    if(!confirmDel) return;
     notes.splice(noteId, 1);
     localStorage.setItem("notes", JSON.stringify(notes));
     showNotes();
 }
+
+//aktualizacja notatki
 function updateNote(noteId, title, filterDesc) {
     let description = filterDesc.replaceAll('<br/>', '\r\n');
     updateId = noteId;
@@ -77,8 +103,17 @@ function updateNote(noteId, title, filterDesc) {
 }
 
 
+// przypięcie notatki
+function pinNote(noteId){
+    noteToPin = notes[noteId];
+    console.log(noteToPin.notePinStatus);
+    !noteToPin.notePinStatus ?  noteToPin.notePinStatus = true :  noteToPin.notePinStatus = false;
+    localStorage.setItem("notes", JSON.stringify(notes));
+    showNotes();    
+}
+
+//dodawanie notatek
 addBtn.addEventListener("click", e => {
-    e.preventDefault();
     let title = titleTag.value.trim(),
     selectedColor,
     description = descTag.value.trim();
@@ -89,12 +124,14 @@ addBtn.addEventListener("click", e => {
         }
     }
     
+    
     if(title || description) {
         let currentDate = new Date(),
         month = months[currentDate.getMonth()],
         day = currentDate.getDate(),
         year = currentDate.getFullYear();
-        let noteInfo = {title, description, selectedColor, date: `${month} ${day}, ${year}`}
+        let notePinStatus = false;
+        let noteInfo = {title, description, selectedColor, date: `${month} ${day}, ${year}`, notePinStatus}
         if(!isUpdate) {
             notes.push(noteInfo);
         } else {
