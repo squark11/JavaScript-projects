@@ -1,0 +1,47 @@
+body{
+    background: #294893;
+}
+.flexBlock{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.soundsList{
+
+    margin-top:20vh;
+}
+.sounds{
+    text-align: center;
+    background: #e9e9e9;
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin-left: 20px;
+}
+.sounds p.tone {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+}
+.playButton{
+    display: grid;
+}
+.playButton label{
+    margin-top: 20px;
+    text-align: left;
+    border-radius: 10px;
+    margin: 20px auto 0;
+    padding: 10px 10px;
+    background: #fff;
+    width: 200px;
+}
+.chosenTracks{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.chosenTracks i{
+    padding: 15px 30px;
+    margin: 10px;
+    border-radius: 20px;
+    background: #fff;
+}

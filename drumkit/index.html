@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl_PL">
+<head>
+    <meta charset="UTF-8">
+    <title>Drumkit</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body>
+    <div class="soundsList flexBlock">
+        <div class="sounds">
+            <p class="tone">BOOM</p>
+            <p>press: R</p>
+        </div>
+        <div class="sounds">
+            <p class="tone">CLAP</p>
+            <p>press: T</p>
+        </div>
+        <div class="sounds">
+            <p class="tone">HIHAT</p>
+            <p>press: Y</p>
+        </div>
+        <div class="sounds">
+            <p class="tone">KICK</p>
+            <p>press: U</p>
+        </div>
+    </div>
+    
+    <div class="playButton">
+        
+        <label>
+<!--        <input type="checkbox" name="track" value="1">-->
+        track 1: 
+        <i class="uil uil-play" id="play1">play</i> 
+        <i class="uil uil-record-audio" id="record1" >record</i> 
+         
+        </label>
+        
+        <label>
+<!--        <input type="checkbox" name="track" value="2">-->
+        track 2: 
+        <i class="uil uil-play" id="play2">play</i> 
+        <i class="uil uil-record-audio" id="record2" >record</i>
+        </label>
+        
+        <label>
+<!--        <input type="checkbox" name="track" value="3">-->
+        track 3: 
+        <i class="uil uil-play" id="play3">play</i> 
+        <i class="uil uil-record-audio" id="record3" >record</i>
+        </label>
+        
+        <label>
+<!--        <input type="checkbox" name="track" value="4">-->
+        track 4: 
+        <i class="uil uil-play" id="play4">play</i> 
+        <i class="uil uil-record-audio" id="record4" >record</i>
+        </label>
+        
+        
+    </div>
+    
+<!--
+    <div class="chosenTracks">
+        <i class="uil uil-play" id="chosenPlay">play</i> 
+        <i class="uil uil-record-audio" id="chosenRecord" >record</i>
+    </div>
+    
+-->
+    <audio src="./sounds/boom.wav"  id="s1"></audio>
+    <audio src="./sounds/clap.wav"  id="s2"></audio>
+    <audio src="./sounds/hihat.wav" id="s3"></audio>
+    <audio src="./sounds/kick.wav"  id="s4"></audio>
+ 
+    <script src="app.js"></script>
+</body>
+</html>
