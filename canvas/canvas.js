@@ -1,7 +1,7 @@
 const value = document.querySelector("#outputValue");
-const far = document.querySelector("#outputFar");
+const distance = document.querySelector("#outputDistance");
 var ballInt = document.querySelector("#value");
-var ballFar = document.querySelector("#ballFar");
+var ballDistance = document.querySelector("#ballDistance");
 
 
 var start = document.querySelector("#start");
@@ -21,16 +21,16 @@ startStatus = false;
 
 // suwaki - zmiana wartości
 value.textContent = ballInt.value;
-far.textContent = ballFar.value;
+distance.textContent = ballDistance.value;
 
 ballInt.addEventListener("input", (event) => {
     value.textContent = event.target.value;
     circleParams.ballCount = event.target.value;
 })
 
-ballFar.addEventListener("input", (event) => {
-    far.textContent = event.target.value;
-    circleParams.ballMinFar = event.target.value;
+ballDistance.addEventListener("input", (event) => {
+    distance.textContent = event.target.value;
+    circleParams.ballMindistance = event.target.value;
 })
 
 
@@ -38,7 +38,7 @@ ballFar.addEventListener("input", (event) => {
 
 const circleParams = {
     ballCount: ballInt.value,
-    ballMinFar: ballFar.value
+    ballMindistance: ballDistance.value
 };
 
 
@@ -47,14 +47,14 @@ function Circle(x, y, dx, dy, radius) {
     this.r = Math.random() * 255;
     this.g = Math.random() * 255;
     this.b = Math.random() * 255;
-    
+
     this.radius = radius;
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
-    
-    
+
+
     this.draw = function () {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -74,6 +74,8 @@ function Circle(x, y, dx, dy, radius) {
 
         this.x += this.dx;
         this.y += this.dy;
+        
+        
 
         this.draw();
     }
@@ -106,29 +108,52 @@ function drawCircle() {
     }
 }
 
+
+
 function animate() {
     startStatus ? requestAnimationFrame(animate) : cancelAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    circles.forEach((a)=>{
+            circles.forEach((b)=>{
+                connectBalls(a,b);
+            })
+    })
+    
     drawCircle();
 }
-drawCircle();
 
+const connectBalls = (b1, b2) =>{
+    const distanceBall = Math.hypot(b1.x - b2.x, b1.y - b2.y);
+    const threshold = innerWidth * circleParams.ballMindistance / 100;
+    if(distanceBall < threshold){
+        ctx.beginPath();
+        ctx.moveTo(b1.x, b1.y);
+        ctx.lineTo(b2.x, b2.y);
+        ctx.stroke();
+    }
+}
+
+//START
 start.addEventListener("click", () => {
-    if(!startStatus){
-        startStatus=true;
+    if (!startStatus) {
+        startStatus = true;
         animate();
-        this.start.innerHTML="Pause";
-    }else{
-        startStatus=false;
-        this.start.innerHTML="Start";
+        this.start.innerHTML = "Pause";
+    } else {
+        startStatus = false;
+        this.start.innerHTML = "Start";
     }
 });
 
+
+//RESTART
 restart.addEventListener("click", () => {
     if (circleParams.ballCount != circles.length) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         circles = generateRandomCircles(circleParams.ballCount);
         drawCircle();
     }
-
 })
+
+drawCircle();
