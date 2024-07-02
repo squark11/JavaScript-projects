@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2em;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 1em;
+            padding: 2em;
+            text-align: center;
+            width: 200px;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My JavaScript Projects</h1>
+    </header>
+    <div class="container">
+        <div class="card">
+            <a href="asyncAdd/index.html">Async Add</a>
+        </div>
+        <div class="card">
+            <a href="canvas/index.html">Canvas</a>
+        </div>
+        <div class="card">
+            <a href="drumkit/index.html">Drumkit</a>
+        </div>
+        <div class="card">
+            <a href="notekeep/index.html">NoteKeep</a>
+        </div>
+        <div class="card">
+            <a href="slider/index.html">Slider</a>
+        </div>
+        <div class="card">
+            <a href="weather/index.html">Weather</a>
+        </div>
+    </div>
+</body>
+</html>
